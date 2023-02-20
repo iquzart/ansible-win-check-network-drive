@@ -1,0 +1,16 @@
+galaxy_info:
+  role_name: win_check_network_drive
+  author: iquzart
+  description: Prometheus custom metrics to checks the status of shared network drives
+  company: ConSol MENA
+  license: MIT
+  min_ansible_version: 2.9
+  platforms:
+  - name: Windows
+    versions:
+    - all
+  galaxy_tags:
+  - Prometheus
+  - networkdrive
+  - customexporter
+dependencies: []

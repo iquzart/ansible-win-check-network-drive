@@ -1,0 +1,34 @@
+---
+# tasks file for win-check-network-drive
+
+
+- name: Create custom metrics .prom file directory {{ custom_metrics_prom_file_path }}
+  ansible.windows.win_file:
+    path: "{{ custom_metrics_prom_file_path }}"
+    state: directory
+
+- name: Create custom metrics scripts directory {{ custom_metrics_scripts_directory }}
+  ansible.windows.win_file:
+    path: "{{ custom_metrics_scripts_directory }}"
+    state: directory
+
+- name: Copy Check-NetworkDrives script to target host
+  ansible.windows.win_template:
+    src: Check-NetworkDrives.ps1.j2
+    dest: '{{ custom_metrics_scripts_directory }}\\Check-NetworkDrives.ps1'
+
+- name: Create Windows Scheduled Task
+  community.windows.win_scheduled_task:
+    name: "{{ task_name }}"
+    description: "{{ task_description }}"
+    actions:
+      - path: powershell
+        arguments: '{{ custom_metrics_scripts_directory }}\Check-NetworkDrives.ps1 {{ network_drives | join(" ") }}'
+    triggers:
+    - type: time
+      start_boundary: "{{ ansible_date_time.date }}"
+      repetition:
+        interval: "{{ task_interval }}"
+    username: "{{ task_user }}"
+    logon_type: service_account
+    state: present

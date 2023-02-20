@@ -1,0 +1,86 @@
+﻿ <#
+.SYNOPSIS
+    This script checks the status of shared network drives and writes the results to a Prometheus file.
+.DESCRIPTION
+    The script takes an array of network drives as input and checks the status of each drive. It then writes the
+    results to a Prometheus file in the format expected by Prometheus for the 'windows_network_share_up' metric.
+.PARAMETER NetworkDrives
+    An array of network drives to check the status of.
+.INPUTS
+    An array of strings representing network drive paths.
+.OUTPUTS
+    The script writes the status of the network drives to a Prometheus file named 'windows_network_share_up.prom'.
+.EXAMPLE
+    PS C:\> .\Check-NetworkDrives.ps1 "Z:\" "X:\"
+.NOTES
+    Author: [Muhammed Iqbal]
+#>
+
+# Define the name of the metric to use in the Prometheus file
+$MetricName = "{{ metric_name }}"
+
+# Define the Prometheus help message for the metric
+$PromHelper = "# HELP $MetricName windows network share status. `n" +
+              "# TYPE $MetricName gauge`n"
+
+# Define the path where the Prometheus file will be written
+$PromFilePath = "{{ custom_metrics_prom_file_path }}"
+
+# Define the full path to the Prometheus file
+$PromFile = "$PromFilePath\$MetricName.prom"
+
+# Define the function to get the status of the network drives
+function Get-ShareDriveStatus {
+    param(
+        [Parameter(Mandatory=$true)]
+        [string[]]$NetworkDrives
+    )
+
+    # Set the Prometheus help message for the metric
+    Set-Content -Encoding Ascii -Path "$PromFile" -Value "$PromHelper"
+
+    # Loop through the network drives and check their status
+    foreach ($NetworkDrive in $NetworkDrives) {
+
+        # Check the status of the network drive and get its state
+        $NetworkDriveState = "$([int](Test-Path -Path `"$($NetworkDrive.Replace('\','\\'))`"))"
+
+        # Write the status of the network drive to the Prometheus file
+        Write-PromFile $NetworkDrive $NetworkDriveState
+    }
+}
+
+# Define the function to write the network drive status to the Prometheus file
+function Write-PromFile {
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$NetworkDrive,
+
+        [Parameter(Mandatory=$true)]
+        [int]$NetworkDriveState
+    )
+
+    # Write the status of the network drive to the Prometheus file
+    Add-Content -Encoding Ascii -Path "$PromFile" -Value "$MetricName{mountpoint=`"$NetworkDrive`"} $NetworkDriveState"
+}
+
+# Define the main function to run the script
+function Main {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory=$true)]
+        [string[]]$NetworkDrives
+    )
+
+    # Check if any network drives have been passed as arguments
+    if ($NetworkDrives.Count -eq 0) {
+        Write-Error "No shared drives arguments are passed. Please pass at least one shared drive as argument."
+    } else {
+        # Call the function to get the status of the network drives
+        Get-ShareDriveStatus $NetworkDrives
+    }
+}
+
+# Call the main function
+Main $args
+ 
