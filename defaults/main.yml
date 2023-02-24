@@ -2,9 +2,9 @@
 # defaults file for win-check-network-drive
 
 metric_name: "windows_network_share_up"
-custom_metrics_directory: "C:\\Prometheus\\custom_metrics"
+custom_metrics_directory: "C:\\Program Files\\windows_exporter"
 custom_metrics_scripts_directory: "{{ custom_metrics_directory }}\\scripts"
-custom_metrics_prom_file_path: "{{ custom_metrics_directory }}\\promfiles"
+custom_metrics_prom_file_path: "{{ custom_metrics_directory }}\\textfile_inputs"
 network_drives:
   - 'Z:\'
   - 'X:\'

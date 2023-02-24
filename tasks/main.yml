@@ -30,5 +30,6 @@
       repetition:
         interval: "{{ task_interval }}"
     username: "{{ task_user }}"
-    logon_type: service_account
+    password: "{{ task_password }}" 
+    update_password: no
     state: present
