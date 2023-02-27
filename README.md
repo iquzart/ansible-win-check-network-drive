@@ -7,6 +7,13 @@ Windows Network Share status Prometheus Exporter
 
 Prometheus custom metrics for windows network share status 
 
+```
+# HELP windows_network_share_up windows network share status. 
+# TYPE windows_network_share_up gauge
+windows_network_share_up{mountpoint="//example-a.file.core.windows.net/share-name-x"} 1
+windows_network_share_up{mountpoint="//example-b.file.core.windows.net/share-name-y"} 1
+```
+
 Requirements
 ------------
 
