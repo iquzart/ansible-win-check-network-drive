@@ -31,5 +31,7 @@
         interval: "{{ task_interval }}"
     username: "{{ task_user }}"
     password: "{{ task_password }}" 
+    run_level: highest
+    logon_type: password
     update_password: no
     state: present

@@ -11,7 +11,7 @@
 .OUTPUTS
     The script writes the status of the network drives to a Prometheus file named 'windows_network_share_up.prom'.
 .EXAMPLE
-    PS C:\> .\Check-NetworkDrives.ps1 "Z:\" "X:\"
+    PS C:\> .\Check-NetworkDrives.ps1 "Z:\" "X:\" or C:\> .\Check-NetworkDrives.ps1 "\\file.server.local\example
 .NOTES
     Author: [Muhammed Iqbal]
 #>
@@ -44,6 +44,9 @@ function Get-ShareDriveStatus {
 
         # Check the status of the network drive and get its state
         $NetworkDriveState = "$([int](Test-Path -Path `"$($NetworkDrive.Replace('\','\\'))`"))"
+
+        # Replace backslashes with forward slashes (Grafana Support)
+        $NetworkDrive = $NetworkDrive.Replace('\', '/')
 
         # Write the status of the network drive to the Prometheus file
         Write-PromFile $NetworkDrive $NetworkDriveState
