@@ -1,9 +1,12 @@
 Windows Network Share status Prometheus Exporter
 =========
-[![Ansible Galaxy](https://img.shields.io/badge/galaxy-iquzart.win_check_network_drive-blue)](https://galaxy.ansible.com/iquzart/win_check_network_drive)
-[![License](https://img.shields.io/:license-mit-blue.svg)](https://badges.mit-license.org)
-![Platforms](http://img.shields.io/badge/platforms-windows-green.svg?style=flat)
-![Release](https://img.shields.io/github/v/release/iquzart/ansible-win-check-network-drive?style=flat)
+
+[![Role Name](https://img.shields.io/ansible/role/61569?label=Role%20Name&logo=ansible&style=flat-square)](https://galaxy.ansible.com/iquzart/win_check_network_drive)
+[![Quality Score](https://img.shields.io/ansible/quality/61569?label=Quality%20Score&logo=ansible&style=flat-square)](https://galaxy.ansible.com/iquzart/win_check_network_drive)
+[![Role Downloads](https://img.shields.io/ansible/role/d/61569?label=Role%20Downloads&logo=ansible&style=flat-square)](https://galaxy.ansible.com/iquzart/win_check_network_drive)
+![Platforms](http://img.shields.io/badge/platforms-windows-green.svg?style=flat-square)
+![Release](https://img.shields.io/github/v/release/iquzart/ansible-win-check-network-drive?style=flat-square)
+[![License](https://img.shields.io/:license-mit-blue.svg?style=flat-square)](https://badges.mit-license.org)
 
 Prometheus custom metrics for windows network share status 
 
